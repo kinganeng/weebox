@@ -1,5 +1,12 @@
-使用前需包含以下文件:
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/bgiframe.js"></script>
-<script type="text/javascript" src="../js/weebox.js"></script>
-<link type="text/css" rel="stylesheet" href="../css/wee.css" />
+使用前需包含以下jquery.js、bgiframe.js、weebox.js、wee.css文件
+基本用法如下:
+$.weeboxs.open('#testbox', {
+			title: 'hello world',
+			position: 'element',
+			modal: false,
+			trigger: 'test',
+			width: 400,
+			height: 200,
+			clickClose: true,
+			type: 'wee'
+		});
