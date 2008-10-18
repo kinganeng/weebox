@@ -1,0 +1,19 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
+
+使用前需包含以下文件:
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/bgiframe.js"></script>
+<script type="text/javascript" src="../js/weebox.js"></script>
+<link type="text/css" rel="stylesheet" href="../css/wee.css" />
