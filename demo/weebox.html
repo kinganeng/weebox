@@ -9,17 +9,20 @@
 <link type="text/css" rel="stylesheet" href="../css/wee.css" />
 </head>
 <script type="text/javascript">
-$().ready(function(){
-	$("#test").click(function(){
-		$.weeboxs.open('#testbox', {
-			title: 'hello world',
-			position: 'element',
-			modal: false,
-			trigger: 'test',
-			width: 400,
-			height: 200,
-			clickClose: true,
-			type: 'wee'
+$(document).ready(function(){
+	$(".testone").each(function(){
+		$(this).click(function(){
+			$.weeboxs.open('#testbox', {
+				boxid: 'boxid',
+				title: 'hello world',
+				position: 'element',
+				modal: false,
+				trigger: this.id,
+				width: 400,
+				height: 200,
+				clickClose: true,
+				type: 'wee'
+			});
 		});
 	});
 	$("#showdialog").click(function(){
@@ -71,17 +74,55 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
 </div>
 <h1>Show Dialog Position </h1>
-<p>Test Dialog Test Dialog Test fdsafdddddddddddddddddd Dialog Test Dialog Test Dialog Test Dialog Test Dialog Test Dialog
-	<input type="button" value="Test" id="test">
+<p>Test Dialog 
+	<input type="button" class="testone" id="testone1" value="Test1">
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+	<input type="button" class="testone" id="testone2" value="Test2">
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+	<input type="button" class="testone" id="testone3" value="Test3">
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+	<input type="button" class="testone" id="testone4" value="Test4" >
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	<input type="button" class="testone" id="testone5" value="Test5">
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
+	<input type="button" class="testone" id="testone6" value="Test6">		
 </p>
-<p>$.weeboxs.open('#testbox', {
-title: 'hello world',
-position: 'element',
-modal: false,
-trigger: 'test',
-width: 400,
-height: 200,
-clickClose: true,type: 'wee'
+<p>$(".testone").each(function(){
+		$(this).click(function(){
+			$.weeboxs.open('#testbox', {
+				boxid: 'boxid',
+				title: 'hello world',
+				position: 'element',
+				modal: false,
+				trigger: this.id,
+				width: 400,
+				height: 200,
+				clickClose: true,
+				type: 'wee'
+			});
+		});
 });</p>
 <hr/>
 
@@ -106,8 +147,8 @@ clickClose: true,type: 'wee'
 <a href="#" id="l2bb">Show Tow Level Dialog</a>
 <hr/>
 
-<h1>Show Modal Dialog</h1>
-<a href="#" id="showdialog">Show Modal Dialog</a>
+<h1>Show  Dialog Event </h1>
+<a href="#" id="showdialog">Show  Dialog Event </a>
 <pre class="prettyprint">
 $.weeboxs.open('The operation failed.');
 </pre>
