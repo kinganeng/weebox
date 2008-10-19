@@ -70,9 +70,19 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
 </div>
-<h1>Test Dialog</h1>
-Test Dialog Test Dialog Test fdsafddddddddddddddddddDialog Test Dialog Test Dialog Test Dialog Test Dialog Test Dialog
-<input type="button" value="Test  dfsafdsaf fdsa fds Dialog" id="test">
+<h1>Show Dialog Position </h1>
+<p>Test Dialog Test Dialog Test fdsafdddddddddddddddddd Dialog Test Dialog Test Dialog Test Dialog Test Dialog Test Dialog
+	<input type="button" value="Test" id="test">
+</p>
+<p>$.weeboxs.open('#testbox', {
+title: 'hello world',
+position: 'element',
+modal: false,
+trigger: 'test',
+width: 400,
+height: 200,
+clickClose: true,type: 'wee'
+});</p>
 <hr/>
 
 <div id="checkbox">
@@ -81,79 +91,72 @@ Test Dialog Test Dialog Test fdsafddddddddddddddddddDialog Test Dialog Test Dial
 	<label><input type="checkbox" value="1">3333</label>
 	<label><input type="checkbox" value="1">4444</label>
 </div>
-<a href="#" id="testcheckbox" onclick="$.weeboxs.open('#checkbox', {contentChange:true});">Test CheckBox</a>
-<hr/>		  
-<h1>Change Old Content Dialog</h1>
 <select>
-<option>aaaaa</option>
-<option>aaaaa</option>
-<option>aaaaa</option>
-<option>aaaaa</option>
-<option>aaaaa</option>
-<option>aaaaa</option>
-<option>aaaaa</option>
-<option>aaaaa</option>
-<option>aaaaa</option>
+<option selected>Test IE Select Options</option>
 </select>
+<h1>Show Change  Content Dialog</h1>
+<a href="#" id="testcheckbox" onclick="$.weeboxs.open('#checkbox', {contentChange:true});">Reback write selector content</a>
+<p>$.weeboxs.open('#checkbox', {contentChange:true});</p>
+<hr/>		  
+
 <div id="l2box" style="display:none">
 <input type="button" onclick="$.weeboxs.open('aaaaaaaa',{});" value="第二层">
 </div>						  
 <h1>Show Tow Level Dialog</h1>
-<a href="#" id="l2bb">Dialog</a>
+<a href="#" id="l2bb">Show Tow Level Dialog</a>
 <hr/>
 
-<h1>Show Dialog</h1>
-<a href="#" id="showdialog">Dialog</a>
+<h1>Show Modal Dialog</h1>
+<a href="#" id="showdialog">Show Modal Dialog</a>
 <pre class="prettyprint">
 $.weeboxs.open('The operation failed.');
 </pre>
 <hr/>
 
 <h1>Show Ajax Dialog</h1>
-<a href="#" id="ajaxdialog">Dialog</a>
+<a href="#" id="ajaxdialog">Show Ajax Dialog </a>
 <pre class="prettyprint">
 $.weeboxs.open('url', {contentType:'ajax'});
 </pre>
 <hr/>
 
-<h1>Show Error</h1>
-<a href="javascript:$.weeboxs.open('The operation failed.',{type:'error'});void(0);">Error</a>
+<h1>Show Error Dialog </h1>
+<a href="javascript:$.weeboxs.open('The operation failed.',{type:'error'});void(0);">Show Error Dialog </a>
 <pre class="prettyprint">
 javascript:$.weeboxs.open('The operation failed.',{type:'error'});
 </pre>
 <hr/>
  
-<h1>Show Warning</h1>
-<a href="javascript:$.weeboxs.open('There were problems processing the log file.', {type:'warning'});void(0);">Warning</a>
+<h1>Show Warning Dialog </h1>
+<a href="javascript:$.weeboxs.open('There were problems processing the log file.', {type:'warning'});void(0);">Show Warning Dialog </a>
 <pre class="prettyprint">
 $.weeboxs.open('There were problems processing the log file.', {type:'warning'});
 </pre>
 <hr/>
 
-<h1>Show Success</h1>
-<a href="javascript:$.weeboxs.open('Great win detected in sector.', {type:'success'});void(0);">Success</a>
+<h1>Show Success Dialog </h1>
+<a href="javascript:$.weeboxs.open('Great win detected in sector.', {type:'success'});void(0);">Show Success Dialog </a>
 <pre class="prettyprint">
 $.weeboxs.open('Great win detected in sector.', {type:'success'});
 </pre>
 <hr/>
 
-<h1>Show Prompt/Confirmation</h1>
-<a href="javascript:$.weeboxs.open('Are you sure you want to quit?',{type:'prompt'});void(0);">Prompt</a>
-
+<h1>Show Prompt Dialog </h1>
+<a href="javascript:$.weeboxs.open('Are you sure you want to quit?',{type:'prompt'});void(0);">Show Prompt Dialog </a>
 <pre class="prettyprint">
 $.weeboxs.open('Are you sure you want to quit?',{type:'prompt'});
 </pre>
 <hr/>
 
-<h1>Set Title</h1>
-<a href="javascript:$.weeboxs.open('All files have been deleted.', { title: 'No Turning Back Now!' });void(0);">Set Title</a>
+<h1>Set Title Dialog </h1>
+<a href="javascript:$.weeboxs.open('All files have been deleted.', { title: 'No Turning Back Now!' });void(0);">Set Title Dialog </a>
 <pre class="prettyprint">
 $.weeboxs.open('All files have been deleted.', { title: 'No Turning Back Now!' });
 </pre>
 <hr/>
 
 <h1>Set Dialog Width</h1>
-<a href="javascript:$.weeboxs.open('Not much here.', { width: 200 });void(0);">Dialog Width</a>
+<a href="javascript:$.weeboxs.open('Not much here.', { width: 200 });void(0);">Set Dialog Width</a>
 
 <pre class="prettyprint">
 $.weeboxs.open('Not much here.', { width: 200 });
@@ -161,19 +164,10 @@ $.weeboxs.open('Not much here.', { width: 200 });
 <hr/>
 
 <h1>Set AutoClose Time</h1>
-<a href="javascript:$.weeboxs.open('Autoclosing in 5 seconds.', { timeout: 5 });void(0);">AutoClose</a>
+<a href="javascript:$.weeboxs.open('Autoclosing in 5 seconds.', { timeout: 5 });void(0);">Show AutoClose Dialog </a>
 <pre class="prettyprint">
 $.weeboxs.open('Autoclosing in 5 seconds.', { timeout: 5 });
 </pre>
 <hr/>
-
-<h1>Set AutoClose Time and Hide Close Buttons</h1>
-<a href="javascript:$.weeboxs.open('Autoclosing in 5 seconds.', { timeout: 5, showClose: false });void(0);">AutoClose</a>
-
-<pre class="prettyprint">
-$.weeboxs.open('Autoclosing in 5 seconds.', { timeout: 5, showClose: false });
-</pre>
-<hr/>
-
 </body>
 </html>
