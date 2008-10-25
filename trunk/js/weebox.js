@@ -423,10 +423,8 @@
 		
 		this.setCenterPosition = function() {
 			var wnd = $(window), doc = $(document),
-				pTop = doc.scrollTop(),	pLeft = doc.scrollLeft(),
-				minTop = pTop;	
+				pTop = doc.scrollTop(),	pLeft = doc.scrollLeft();	
 			pTop += (wnd.height() - self.dh.height()) / 2;
-			pTop = Math.max(pTop, minTop);
 			pLeft += (wnd.width() - self.dh.width()) / 2;
 			self.dh.css({top: pTop, left: pLeft});
 		}
