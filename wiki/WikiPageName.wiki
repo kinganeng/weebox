@@ -1,28 +1,49 @@
 #labels Featured
 * Weebox has the following features:
-
+{{{
 * Multi-level pop up windows.
 
 * Singleton window support. When the second pop window opened with the same ID, the former one will be closed.
+$.weeboxs.open("Singleton window support", {title:'sigleton dialog', boxid:'sigle'});
 
 * Support customized styles.
+$.weeboxs.open("Support customized styles", {title:'test dialog', boxclass:'mydialogclass'});
 
 * Solved the SELECT issue under IE browser.
 
 * Drag effect support, via the draggable setting.
+$.weeboxs.open("Drag effect support", {title:'cannot drag dialog', draggable:false});
 
 * Content source support on Ajax, jQuery selector and Text.
+$.weeboxs.open("Content source support on Text", {title:'text source dialog'});
+$.weeboxs.open("#id", {title:'selector source dialog'});//use element id can omission contentType option
+$.weeboxs.open(".class", {title:'selector source dialog',contentType:'selector'});
+$.weeboxs.open("url", {title:'selector source dialog', contentType:'ajax'});
 
 * Various pop up patterns, such as dialog, error promote, warning, success, wee, etc...
+$.weeboxs.open("Various pop up patterns", {title:"default dialog"});//default is dialog
+$.weeboxs.open("Various pop up patterns", {title:"wee dialog",type:'wee'});
+$.weeboxs.open("Various pop up patterns", {title:"success dailog",type:'wee'});
+.....
 
 * Auto close support.
+$.weeboxs.open("Auto close after 5 seconds", {title:"auto close dialog", timeout:5});
+$.weeboxs.open("Auto close after 10 seconds.", {title:"auto close dialog", timeout:10});
 
 * Mask effect support(Modal pop up window).
+$.weeboxs.open("Mask effect support", {title:"no mask dialog",modal:false});//default is true
 
 * Modifiable display position, central or refer to other element.
+$.weeboxs.open("Modifiable display position", {title:"central dialog"});//default is center
+$.weeboxs.open("Modifiable display position", {title:"refer element dialog", trigger:"referElementId"});
 
 * Call back function support, such as onopen, on ok, on cancel, on close.
+$.weeboxs.open("Call back function support", {title:"test event", onopen:function(){alert("onopen"), onok:function(){alert("onok")},oncancel:function(){alert("oncancel")},onclose:function(){alert("onclose")}};
 
 * The title, content, and buttons can be resetted when the window has already been opened.
+$.weeboxs.open("change title, content..", {title:"change dialog", onopen:function(box){box.setTitle("changed title");box.setContent("content by changed");}}
+//get use getTitle(),getContent()
 
 * Find operation can be limited only within the pop up window.
+$.weeboxs.open("<input type='text' id='id'>Find operation can be limited only within the pop up window.", {title:"find dialog",onopen:function(box){box.find("#id").val("test");}});
+}}}
