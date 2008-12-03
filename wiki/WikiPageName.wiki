@@ -1,5 +1,5 @@
 #labels Featured
-Weebox has the following features:
+*Weebox has the following features:
 
 ** Multi-level pop up windows.
 
