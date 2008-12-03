@@ -1,18 +1,28 @@
 #labels Featured
-*Weebox has the following features:
+* Weebox has the following features:
 
-** Multi-level pop up windows.
+* Multi-level pop up windows.
 
-** Singleton window support. When the second pop window opened with the same ID, the former one will be closed.
+* Singleton window support. When the second pop window opened with the same ID, the former one will be closed.
 
-** Support customized styles.
+* Support customized styles.
 
-** Solved the SELECT issue under IE browser.
+* Solved the SELECT issue under IE browser.
 
-** Drag effect support, via the draggable setting.
+* Drag effect support, via the draggable setting.
 
-** Content source support on Ajax, jQuery selector and Text.
+* Content source support on Ajax, jQuery selector and Text.
 
-** Various pop up patterns, such as dialog, error promote, warning, success, wee, etc...
+* Various pop up patterns, such as dialog, error promote, warning, success, wee, etc...
 
-** Auto close support.
+* Auto close support.
+
+* Mask effect support(Modal pop up window).
+
+* Modifiable display position, central or refer to other element.
+
+* Call back function support, such as onopen, on ok, on cancel, on close.
+
+* The title, content, and buttons can be resetted when the window has already been opened.
+
+* Find operation can be limited only within the pop up window.
