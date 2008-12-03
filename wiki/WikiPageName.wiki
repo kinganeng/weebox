@@ -11,4 +11,8 @@ Weebox has the following features:
 
 ** Drag effect support, via the draggable setting.
 
-** Content source support on Ajax, jQuery selector and Text
+** Content source support on Ajax, jQuery selector and Text.
+
+** Various pop up patterns, such as dialog, error promote, warning, success, wee, etc...
+
+** Auto close support.
