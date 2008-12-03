@@ -1,0 +1,4 @@
+Weebox has the following features:
+multi-level pop up windows
+
+Singleton window support. When the second pop window opened with the same ID, the former one will be closed
