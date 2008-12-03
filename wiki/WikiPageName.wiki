@@ -1,4 +1,14 @@
+#labels Featured
 Weebox has the following features:
-multi-level pop up windows
 
-Singleton window support. When the second pop window opened with the same ID, the former one will be closed
+* Multi-level pop up windows.
+
+* Singleton window support. When the second pop window opened with the same ID, the former one will be closed.
+
+* Support customized styles.
+
+* Solved the SELECT issue under IE browser.
+
+* Drag effect support, via the draggable setting.
+
+* Content source support on Ajax, jQuery selector and Text
