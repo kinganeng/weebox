@@ -38,10 +38,10 @@ $.weeboxs.open("Modifiable display position", {title:"central dialog"});//defaul
 $.weeboxs.open("Modifiable display position", {title:"refer element dialog", trigger:"referElementId"});
 
 * Call back function support, such as onopen, on ok, on cancel, on close.
-$.weeboxs.open("Call back function support", {title:"test event", onopen:function(){alert("onopen"), onok:function(){alert("onok")},oncancel:function(){alert("oncancel")},onclose:function(){alert("onclose")}};
+$.weeboxs.open("Call back function support", {title:"test event", onopen:function(){alert("onopen"), onok:function(){alert("onok")},oncancel:function(){alert("oncancel")},onclose:function(){alert("onclose")}});
 
 * The title, content, and buttons can be resetted when the window has already been opened.
-$.weeboxs.open("change title, content..", {title:"change dialog", onopen:function(box){box.setTitle("changed title");box.setContent("content by changed");}}
+$.weeboxs.open("change title, content..", {title:"change dialog", onopen:function(box){box.setTitle("changed title");box.setContent("content by changed");}});
 //get use getTitle(),getContent()
 
 * Find operation can be limited only within the pop up window.
