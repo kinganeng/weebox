@@ -1,24 +1,11 @@
 /**
  * weebox.js
- *
- * weebox js
- *
  * @category   javascript
  * @package    jquery
  * @author     Jack <xiejinci@gmail.com>
- * @copyright  Copyright (c) 2006-2008 9wee Com. (http://www.9wee.com)
- * @license    http://www.9wee.com/license/
  * @version    
  */ 
 (function($) {
-	if(typeof($.fn.bgIframe) == 'undefined') {
-		$.ajax({
-			type: "GET",
-		  	url: '/js/jquery/bgiframe.js',
-		  	success: function(js){eval(js);},
-		  	async: false				  	
-		});
-	}
 	var arrweebox = new Array();
 	var weebox = function(content, options) {
 		var self 		= this;
@@ -33,7 +20,7 @@
 		this._dragging 	= false;
 		this._content 	= content;
 		this._options 	= options;
-		this._titles 	= {error:'出错啦!', warning:'警告提醒!', 'success':'成功啦!'};
+		this._titles 	= {error:'出错啦!', warning:'警告提醒!', 'success':'成功!'};
 		this._defaults 	= {
 			boxid: null,
 			boxclass: null,
@@ -66,12 +53,12 @@
 			onok: null		
 		};
 		//初始化选项
-		this.initOptions = function() {	
+		this.initOptions = function() {
 			self._options = self._options || {};
-			self._options.type = self._options.type || 'wee';			
+			self._options.type = self._options.type || 'wee';
 			self._options.title = self._options.title || this._titles[self._options.type] || "";
-			if ($.inArray(self._options.type, ['weeuser','helpbox','custombox'])==-1) self._options.type = 'wee';
-			self._options.boxclass = self._options.boxclass || self._options.type+"box";				
+			if ($.inArray(self._options.type, ['custom'])==-1) self._options.type = 'dialog';
+			self._options.boxclass = self._options.boxclass || self._options.type+"box";
 			self._options.contentType = self._options.contentType || "";
 			if (self._options.contentType == "") {
 				self._options.contentType = (self._content.substr(0,1) == '#') ? 'selector' : 'text';
@@ -84,33 +71,8 @@
 		this.initBox = function() {
 			var html = '';	
 			switch(self.options.type) {
-				case 'wee1': 
-				html = 	'<div class="weedialog1">' +
-						'	<div class="dialog-header">' +
-						'		<div class="dialog-tl"></div>' +
-						'		<div class="dialog-title"></div>' +
-						'		<div class="dialog-tr">' +
-						'			<div class="dialog-close" title="关闭"><a href="javascript:;" onclick="return false"></a></div>' +
-						'		</div>' +
-						'	</div>' +
-						'	<div class="dialog-con">' +
-						'		<div class="dialog-con2">' +
-						'			<div class="dialog-content"></div>' +
-						'			<div class="dialog-button">' +
-						'				<input type="button" class="dialog-ok" value="确认" />&nbsp;' +
-						'				<input type="button" class="dialog-cancel" value="取消" />' +
-						'			</div>' +
-						'		</div>' +
-						'	</div>' +	
-						'	<div class="dialog-bot">' +
-						'		<div class="dialog-bl"></div>' +
-						'		<div class="dialog-bc"></div>' +
-						'		<div class="dialog-br"></div>' +
-						'	</div>' +
-						'</div>';
-						break;
-				case 'wee':
-				html =  '<div class="weedialog2">' +
+				case 'dialog':
+				html =  '<div class="weedialog">' +
 						'	<div class="dialog-header">' +
 						'		<div class="dialog-tl"></div>' +
 						'		<div class="dialog-tc">' +
@@ -139,65 +101,8 @@
 						'	</div>' +
 						'</div>';
 						break;
-				case 'tips':
-				html = 	'<div class="weetips">' +
-						'	<div class="tipsbg">' +
-						'		<div class="dialog-header">' +
-						'			<a href="javascript:void(0);" title="关闭" class="dialog-close"><img src="/js/jquery/wee/img/tips_close.gif" border="0" /></a>' +
-						'			<span class="dialog-title"></span>' +
-						'		</div>' +
-						'		<div class="dialog-content"></div>' +
-						'		<div style="clear:both"></div>' +
-						'		<div class="dialog-button">' +
-						'			<input type="button" class="dialog-ok" value="确定">' +
-						'			<input type="button" class="dialog-cancel" value="取消">' +
-						'		</div>' +
-						'	</div>' +
-						'</div>';	
-						break;
-				case 'custombox':
-				html = '<div><div class="dialog-content"></div></div>';
-						break;
-				html = '<div class="weeuser"><div class="dialog-content"></div></div>';
-						break;
-				case 'helpbox':
-				html = 	'<div class="helpbox">' +
-						'	<div style="position:absolute; right:5px; top:5px"><a title="关闭" class="dialog-close" href="javascript:;" onclick="return false;"><img src="/js/jquery/wee/img/x.gif" /></a></div>' +
-						'	<div class="dialog-header"><div class="helphead dialog-title">九维网帮助手册</div></div>' +
-						'	<div class="helpcbox dialog-content"></div>' +
-						'</div>';
-						break;
-				case 'error':
-				html = 	'<div class="weewarning">' +
-						'	<div class="dialog-header">' +
-						'		<a href="javascript:;" onclick="return false" title="关闭" class="dialog-close">' +
-						'			<img src="/js/jquery/wee/img/warning_close.gif" border="0" />' +
-						'		</a>' +
-						'		<span class="dialog-title">警告</span>' +
-						'	</div>' +
-						'	<div class="dialog-content"></div>' +
-						'	<div class="dialog-button">' +
-						'		<input type="button" class="dialog-ok" value="确定">' +
-						'		<input type="button" class="dialog-cancel" value="取消">' +
-						'	</div>' +
-						'</div>';
-						break;
-				case 'weeuser':
-				html = '<div class="weeuser"><div class="dialog-content"></div></div>';
-						break;
-				default:
-				html =  '<div class="dialog-box '+self.options.type+'box">' +
-						'	<div class="dialog-header">' +
-						'		<div class="dialog-title"></div>' +
-						'		<div class="dialog-close"></div>' +
-						'	</div>' +
-						'	<div class="dialog-content"></div>' +	
-						'	<div style="clear:both"></div>' +				
-						'	<div class="dialog-button">' +
-						'		<input type="button" class="dialog-ok" value="确定">' +
-						'		<input type="button" class="dialog-cancel" value="取消">' +
-						'	</div>' +
-						'</div>';
+				case 'custom':
+				html = '<div class="weecustom"><div class="dialog-content"></div></div>';
 						break;
 			}
 			self.dh = $(html).appendTo('body').hide().css({
@@ -591,17 +496,12 @@
 		 	var offset = e.offsetLeft;
 		 	if(e.offsetParent!=null) offset += this.getLeft(e.offsetParent); //递归
 			return offset;
-		}		
-		//窗口初始化	
-		this.initialize = function() {
-			self.initOptions();
-			self.initMask();
-			self.initBox();		
-			self.initContent();
-			self.initEvent();
 		}
-		//初始化
-		this.initialize();
+		this.initOptions();
+		this.initMask();
+		this.initBox();		
+		this.initContent();
+		this.initEvent();
 	}	
 	
 	var weeboxs = function() {		
@@ -611,14 +511,19 @@
 		this.zIndex = 999;
 		this.length = function() {
 			return arrweebox.length;
-		}		
+		}
 		this.open = function(content, options) {
 			self._opening = true;
 			if (typeof(options) == "undefined") {
 				options = {};
 			}
 			if (options.boxid) {
-				self.close(options.boxid);
+				for(var i=0; i<arrweebox.length; i++) {
+					if (arrweebox[i].dh.attr('id') == options.boxid) {
+						arrweebox[i].close();
+						break;
+					}
+				}
 			}
 			options.zIndex = self.zIndex;
 			self.zIndex += 10;
@@ -626,73 +531,12 @@
 			box.dh.click(function(){self._onbox = true;});
 			arrweebox.push(box);
 		}
-		this.close = function(id) {
-			if (id) {
-				for(var i=0; i<arrweebox.length; i++) {
-					if (arrweebox[i].dh.attr('id') == id) {
-						arrweebox[i].close();
-						//var box = arrweebox.splice(i,1);
-						//arrweebox.push(box);
-						//box.close();
-						break;
-					}
-				}
-			} else {
-				if (self.getTopBox())self.getTopBox().close();
-			}
-		}
 		this.getTopBox = function() {
 			if (arrweebox.length>0) {
 				return arrweebox[arrweebox.length-1];
 			} else {
 				return false;
 			}
-		}
-		this.find = function(selector) {
-			return (self.getTopBox()) ? self.getTopBox().find(selector) : false;
-		}		
-		this.setTitle = function(title) {
-			if (self.getTopBox())self.getTopBox().setTitle(title);
-		}		
-		this.getTitle = function() {
-			return (self.getTopBox())? self.getTopBox().getTitle() : "";
-		}		
-		this.setContent = function(content) {
-			if (self.getTopBox())self.getTopBox().setContent(content);
-		}		
-		this.getContent = function() {
-			return (self.getTopBox()) ? self.getTopBox().getContent() : "";
-		}		
-		this.disabledButton = function(btname, val) {
-			if (self.getTopBox())self.getTopBox().disabledButton(btname, val);
-		}
-		this.hideButton = function(btname) {
-			if (self.getTopBox())self.getTopBox().hideButton(btname);			
-		}		
-		this.showButton = function(btname) {
-			if (self.getTopBox())self.getTopBox().showButton(btname);	
-		}		
-		this.setButtonTitle = function(btname, title) {
-			if (self.getTopBox())self.getTopBox().setButtonTitle(btname, title);	
-		}
-		this.setLoading = function() {
-			if (self.getTopBox())self.getTopBox().setLoading();	
-		}
-		//设置onok事件
-		this.setOnok = function(fn) {
-			if (self.getTopBox())self.getTopBox().setOnok(fn);
-		}
-		//设置onOncancel事件
-		this.setOncancel = function(fn) {
-			if (self.getTopBox())self.getTopBox().setOncancel(fn);
-		}
-		//设置onOnclose事件
-		this.setOnclose = function(fn) {
-			if (self.getTopBox())self.getTopBox().setOnclose(fn);
-		}
-		//操作完成
-		this.finish = function(title, content, width, okname, onclose) {
-			if (self.getTopBox())self.getTopBox().finish(title, content, width, okname, onclose);
 		}
 		$(window).scroll(function() {
 			if (arrweebox.length > 0) {

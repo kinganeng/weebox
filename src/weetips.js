@@ -1,13 +1,9 @@
 /**
  * weetips.js
  *
- * weetips javascript
- *
  * @category   javascript
  * @package    jquery
  * @author     Jack <xiejinci@gmail.com>
- * @copyright  Copyright (c) 2006-2008 9wee Com. (http://www.9wee.com)
- * @license    http://www.9wee.com/license/
  * @version    
  */
 var weetips = function() {
