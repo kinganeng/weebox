@@ -1,12 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
                     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/bgiframe.js"></script>
-<script type="text/javascript" src="../js/weebox.js"></script>
-<link type="text/css" rel="stylesheet" href="../css/wee.css" />
+<script type="text/javascript" src="../src/jquery.js"></script>
+<script type="text/javascript" src="../src/bgiframe.js"></script>
+<script type="text/javascript" src="../src/weebox.js"></script>
+<link type="text/css" rel="stylesheet" href="../src/weebox.css" />
 </head>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -21,26 +21,19 @@ $(document).ready(function(){
 				width: 400,
 				height: 200,
 				clickClose: true,
-				type: 'wee1'
+				type: 'wee'
 			});
 		});
 	});
-	$("#showdialog").click(function(){
-		$.weeboxs.open(
-			'The operation failed.',
-			{
-				onopen:function(){alert('opened!');},
-				onclose:function(){alert('closed!');},
-				onok:function(){alert('ok'); $.weeboxs.close();}
-			}
-		);
-	});
-	$("#ajaxdialog").click(function(){
-		$.weeboxs.open('/modules/test/testsession.php', {contentType:'ajax'});
-	});
-	
-	$("#l2bb").click(function(){
-		$.weeboxs.open('#l2box',{width:600,height:300});
+	$("#testone3").click(function(){
+		$.weeboxs.open('#testbox', {
+			title: 'hello world',
+			modal: true,
+			width: 400,
+			height: 200,
+			clickClose: true,
+			type: 'wee'
+		});
 	});
 });
 </script>
@@ -74,141 +67,9 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
 </div>
 <h1>Show Dialog Position </h1>
-<p>Test Dialog 
-	<input type="button" class="testone" id="testone1" value="Test1">
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-	<input type="button" class="testone" id="testone2" value="Test2">
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-	<input type="button" class="testone" id="testone3" value="Test3">
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-	<input type="button" class="testone" id="testone4" value="Test4" >
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	<input type="button" class="testone" id="testone5" value="Test5">
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	aaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>
-	<input type="button" class="testone" id="testone6" value="Test6">		
-</p>
-<p>$(".testone").each(function(){
-		$(this).click(function(){
-			$.weeboxs.open('#testbox', {
-				boxid: 'boxid',
-				title: 'hello world',
-				position: 'element',
-				modal: false,
-				trigger: this.id,
-				width: 400,
-				height: 200,
-				clickClose: true,
-				type: 'wee'
-			});
-		});
-});</p>
-<hr/>
-
-<div id="checkbox">
-	<label><input type="checkbox" value="1">1111</label>
-	<label><input type="checkbox" value="1">2222</label>
-	<label><input type="checkbox" value="1">3333</label>
-	<label><input type="checkbox" value="1">4444</label>
-</div>
-<select>
-<option selected>Test IE Select Options</option>
-</select>
-<h1>Show Change  Content Dialog</h1>
-<a href="#" id="testcheckbox" onclick="$.weeboxs.open('#checkbox', {contentChange:true});">Reback write selector content</a>
-<p>$.weeboxs.open('#checkbox', {contentChange:true});</p>
-<hr/>		  
-
-<div id="l2box" style="display:none">
-<input type="button" onclick="$.weeboxs.open('aaaaaaaa',{});" value="第二层">
-</div>						  
-<h1>Show Tow Level Dialog</h1>
-<a href="#" id="l2bb">Show Tow Level Dialog</a>
-<hr/>
-
-<h1>Show  Dialog Event </h1>
-<a href="#" id="showdialog">Show  Dialog Event </a>
-<pre class="prettyprint">
-$.weeboxs.open('The operation failed.');
-</pre>
-<hr/>
-
-<h1>Show Ajax Dialog</h1>
-<a href="#" id="ajaxdialog">Show Ajax Dialog </a>
-<pre class="prettyprint">
-$.weeboxs.open('url', {contentType:'ajax'});
-</pre>
-<hr/>
-
-<h1>Show Error Dialog </h1>
-<a href="javascript:$.weeboxs.open('The operation failed.',{type:'error'});void(0);">Show Error Dialog </a>
-<pre class="prettyprint">
-javascript:$.weeboxs.open('The operation failed.',{type:'error'});
-</pre>
-<hr/>
- 
-<h1>Show Warning Dialog </h1>
-<a href="javascript:$.weeboxs.open('There were problems processing the log file.', {type:'warning'});void(0);">Show Warning Dialog </a>
-<pre class="prettyprint">
-$.weeboxs.open('There were problems processing the log file.', {type:'warning'});
-</pre>
-<hr/>
-
-<h1>Show Success Dialog </h1>
-<a href="javascript:$.weeboxs.open('Great win detected in sector.', {type:'success'});void(0);">Show Success Dialog </a>
-<pre class="prettyprint">
-$.weeboxs.open('Great win detected in sector.', {type:'success'});
-</pre>
-<hr/>
-
-<h1>Show Prompt Dialog </h1>
-<a href="javascript:$.weeboxs.open('Are you sure you want to quit?',{type:'prompt'});void(0);">Show Prompt Dialog </a>
-<pre class="prettyprint">
-$.weeboxs.open('Are you sure you want to quit?',{type:'prompt'});
-</pre>
-<hr/>
-
-<h1>Set Title Dialog </h1>
-<a href="javascript:$.weeboxs.open('All files have been deleted.', { title: 'No Turning Back Now!' });void(0);">Set Title Dialog </a>
-<pre class="prettyprint">
-$.weeboxs.open('All files have been deleted.', { title: 'No Turning Back Now!' });
-</pre>
-<hr/>
-
-<h1>Set Dialog Width</h1>
-<a href="javascript:$.weeboxs.open('Not much here.', { width: 200 });void(0);">Set Dialog Width</a>
-
-<pre class="prettyprint">
-$.weeboxs.open('Not much here.', { width: 200 });
-</pre>
-<hr/>
-
-<h1>Set AutoClose Time</h1>
-<a href="javascript:$.weeboxs.open('Autoclosing in 5 seconds.', { timeout: 5 });void(0);">Show AutoClose Dialog </a>
-<pre class="prettyprint">
-$.weeboxs.open('Autoclosing in 5 seconds.', { timeout: 5 });
-</pre>
+<input type="button" class="testone" id="testone1" value="Test Dialog Position">
+<input type="button" class="testone" id="testone2" value="Test Dialog Position">
+<input type="button" id="testone3" value="Test Dialog Position">
 <hr/>
 </body>
 </html>
