@@ -45,8 +45,9 @@
 			contentChange: false,
 			clickClose: false,
 			zIndex: 999,
-			animate: false,
-			trigger: null,
+			animate: '',
+			showAnimate:'',
+			hideAnimate:'',
 			onclose: null,
 			onopen: null,
 			oncancel: null,
@@ -55,7 +56,10 @@
 		//初始化选项
 		this.initOptions = function() {
 			self._options = self._options || {};
-			self._options.type = self._options.type || 'wee';
+			self._options.animate = self._options.animate || '';
+			self._options.showAnimate = self._options.showAnimate || self._options.animate;
+			self._options.hideAnimate = self._options.hideAnimate || self._options.animate;
+			self._options.type = self._options.type || 'dialog';
 			self._options.title = self._options.title || this._titles[self._options.type] || "";
 			if ($.inArray(self._options.type, ['custom'])==-1) self._options.type = 'dialog';
 			self._options.boxclass = self._options.boxclass || self._options.type+"box";
@@ -276,17 +280,24 @@
 			}
 			if (self.options.position == 'center') {
 				self.setCenterPosition();
-			}
-			if (self.options.position == 'element') {
+			} else {
 				self.setElementPosition();
 			}
-			self.dh.show();
+			if (typeof self.options.showAnimate == "string") {
+				self.dh.show(self.options.animate);
+			} else {
+				self.dh.animate(self.options.showAnimate.animate, self.options.showAnimate.speed);
+			}
 			if (self.mh) {
 				self.mh.show();
 			}
 		}
-		this.hide = function() {
-			self.dh.hide();
+		this.hide = function(fn) {
+			if (typeof self.options.hideAnimate == "string") {
+				self.dh.hide(self.options.animate, fn);
+			} else {
+				self.dh.animate(self.options.hideAnimate.animate, self.options.hideAnimate.speed, "", fn);
+			}
 		}
 		//设置弹窗焦点
 		this.focus = function() {
@@ -403,8 +414,8 @@
 					arrweebox.splice(i, 1);
 					break;
 				}
-			}			
-			self.dh.remove();
+			}
+			self.hide(function(){self.dh.remove();});
 			if (self.mh) {
 				self.mh.remove();
 			}
@@ -461,14 +472,11 @@
 		}
 		//根据元素设置弹窗显示位置
 		this.setElementPosition = function() {
-			var trigger = $("*[id="+self.options.trigger+"]");//$("#"+self.options.trigger);			
-			if (trigger.length == 0) {
-				alert('请设置位置的相对元素');
-				self.close();				
-				return false;
-			}
-			var top = this.getTop(trigger.get(0)) + trigger.height() + 7;
-			var left = this.getLeft(trigger.get(0)) - 7;
+			var trigger = $(self.options.position.refele);
+			var reftop = self.options.position.reftop || 0;
+			var refleft = self.options.position.refleft || 0;
+			var top = this.getTop(trigger.get(0)) + trigger.height() + reftop;
+			var left = this.getLeft(trigger.get(0)) + refleft;
 			var docWidth = document.documentElement.clientWidth || document.body.clientWidth;
 			var docHeight = document.documentElement.clientHeight|| document.body.clientHeight;
 			var docTop = document.documentElement.scrollTop|| document.body.scrollTop;
@@ -530,6 +538,7 @@
 			var box = new weebox(content, options);
 			box.dh.click(function(){self._onbox = true;});
 			arrweebox.push(box);
+			return box;
 		}
 		this.getTopBox = function() {
 			if (arrweebox.length>0) {
