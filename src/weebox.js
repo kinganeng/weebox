@@ -475,8 +475,8 @@
 			var trigger = $(self.options.position.refele);
 			var reftop = self.options.position.reftop || 0;
 			var refleft = self.options.position.refleft || 0;
-			var top = this.getTop(trigger.get(0)) + trigger.height() + reftop;
-			var left = this.getLeft(trigger.get(0)) + refleft;
+			var top = trigger.offset().top + trigger.height() + reftop;
+			var left = trigger.offset().left + refleft;
 			var docWidth = document.documentElement.clientWidth || document.body.clientWidth;
 			var docHeight = document.documentElement.clientHeight|| document.body.clientHeight;
 			var docTop = document.documentElement.scrollTop|| document.body.scrollTop;
@@ -492,18 +492,6 @@
 			left = Math.max(left, 0);
 			top = Math.max(top, 0);
 			self.dh.css({top: top, left: left});
-		}	
-		//获取元素的纵坐标
-		this.getTop = function(e) {
-		 	var offset = e.offsetTop;
-		 	if(e.offsetParent!=null) offset += this.getTop(e.offsetParent); //递归
-		 	return offset; 
-		}
-		//获取元素的横坐标
-		this.getLeft = function(e) {
-		 	var offset = e.offsetLeft;
-		 	if(e.offsetParent!=null) offset += this.getLeft(e.offsetParent); //递归
-			return offset;
 		}
 		this.initOptions();
 		this.initMask();
