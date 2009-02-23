@@ -370,8 +370,8 @@
 		this.setButtonTitle = function(btname, title) {
 			self.dh.find('.dialog-'+btname).val(title);	
 		}
-		//操作完成
-		this.finish = function(title, content, width, okname, onclose) {
+		//下一个窗口
+		this.next = function(title, content, width, okname, onclose) {
 			title = title || self.getTitle();
 			content = content || "";
 			okname = okname || "确定";
