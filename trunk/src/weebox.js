@@ -18,9 +18,8 @@
 		this.options 	= null;
 		
 		this._dragging 	= false;
-		this._content 	= content;
-		this._options 	= options;
-		this._titles 	= {error:'出错啦!', warning:'警告提醒!', 'success':'成功!'};
+		this._content 	= content || '';
+		this._options 	= options || {};
 		this._defaults 	= {
 			boxid: null,
 			boxclass: null,
@@ -60,11 +59,11 @@
 			self._options.showAnimate = self._options.showAnimate || self._options.animate;
 			self._options.hideAnimate = self._options.hideAnimate || self._options.animate;
 			self._options.type = self._options.type || 'dialog';
-			self._options.title = self._options.title || this._titles[self._options.type] || "";
+			self._options.title = self._options.title || '';
 			if ($.inArray(self._options.type, ['custom'])==-1) self._options.type = 'dialog';
-			self._options.boxclass = self._options.boxclass || self._options.type+"box";
-			self._options.contentType = self._options.contentType || "";
-			if (self._options.contentType == "") {
+			self._options.boxclass = self._options.boxclass || self._options.type+'box';
+			self._options.contentType = self._options.contentType || '';
+			if (self._options.contentType == '') {
 				self._options.contentType = (self._content.substr(0,1) == '#') ? 'selector' : 'text';
 			}
 			self.options  = $.extend({}, self._defaults, self._options);
@@ -143,8 +142,8 @@
 		}
 		//初始化弹窗内容
 		this.initContent = function(content) {
-			self.dh.find(".dialog-ok").val(self.options.okBtnName);
-			self.dh.find(".dialog-cancel").val(self.options.cancelBtnName);	
+			self.dh.find('.dialog-ok').val(self.options.okBtnName);
+			self.dh.find('.dialog-cancel').val(self.options.cancelBtnName);	
 			if (self.options.title == '') {
 				//self.dt.hide();	
 				//self.dt.html(self._titles[self._options.type] || '');
@@ -161,9 +160,9 @@
 				self.dh.find('.dialog-cancel').hide();
 			}							
 			if (!self.options.showOk) {
-				self.dh.find(".dialog-ok").hide();
+				self.dh.find('.dialog-ok').hide();
 			}			
-			if (self.options.contentType == "selector") {
+			if (self.options.contentType == 'selector') {
 				self.selector = self._content;
 				self._content = $(self.selector).html();
 				self.setContent(self._content);
@@ -176,16 +175,16 @@
 				self.show();
 				self.focus();
 				self.onopen();
-			} else if (self.options.contentType == "ajax") {	
+			} else if (self.options.contentType == 'ajax') {	
 				self.ajaxurl = self._content;	
 				self.setLoading();				
 				self.show();
-				self.dh.find(".dialog-button").hide();
+				self.dh.find('.dialog-button').hide();
 				if (self.options.cache == false) {
 					if (self.ajaxurl.indexOf('?') == -1) {
-						self.ajaxurl += "?_t="+getcurrseconds();
+						self.ajaxurl += '?_t='+Math.random();
 					} else {
-						self.ajaxurl += "&_t="+getcurrseconds();
+						self.ajaxurl += '&_t='+Math.random();
 					}
 				}
 				$.get(self.ajaxurl, function(data) {
@@ -204,12 +203,12 @@
 		}
 		//初始化弹窗事件
 		this.initEvent = function() {
-			self.dh.find(".dialog-close, .dialog-cancel, .dialog-ok").unbind('click').click(function(){self.close()});			
-			if (typeof(self.options.onok) == "function") {
-				self.dh.find(".dialog-ok").unbind('click').click(function(){self.options.onok(self)});
+			self.dh.find('.dialog-close, .dialog-cancel, .dialog-ok').unbind('click').click(function(){self.close()});			
+			if (typeof(self.options.onok) == 'function'") {
+				self.dh.find('.dialog-ok').unbind('click').click(function(){self.options.onok(self)});
 			} 
-			if (typeof(self.options.oncancel) == "function") {
-				self.dh.find(".dialog-cancel").unbind('click').click(function(){self.options.oncancel(self)});
+			if (typeof(self.options.oncancel) == 'function') {
+				self.dh.find('.dialog-cancel').unbind('click').click(function(){self.options.oncancel(self)});
 			}	
 			if (self.options.timeout>0) {
 				window.setTimeout(self.close, (self.options.timeout * 1000));
@@ -218,11 +217,11 @@
 		}
 		//设置onok事件
 		this.setOnok = function(fn) {
-			self.dh.find(".dialog-ok").unbind('click').click(function(){fn(self)});
+			self.dh.find('.dialog-ok').unbind('click').click(function(){fn(self)});
 		}
 		//设置onOncancel事件
 		this.setOncancel = function(fn) {
-			self.dh.find(".dialog-cancel").unbind('click').click(function(){fn(self)});
+			self.dh.find('.dialog-cancel').unbind('click').click(function(){fn(self)});
 		}
 		//设置onOnclose事件
 		this.setOnclose = function(fn) {
@@ -269,7 +268,7 @@
 		}
 		//打开前的回弹函数
 		this.onopen = function() {							
-			if (typeof(self.options.onopen) == "function") {
+			if (typeof(self.options.onopen) == 'function') {
 				self.options.onopen(self);
 			}	
 		}
@@ -283,7 +282,7 @@
 			} else {
 				self.setElementPosition();
 			}
-			if (typeof self.options.showAnimate == "string") {
+			if (typeof self.options.showAnimate == 'string') {
 				self.dh.show(self.options.animate);
 			} else {
 				self.dh.animate(self.options.showAnimate.animate, self.options.showAnimate.speed);
@@ -293,10 +292,10 @@
 			}
 		}
 		this.hide = function(fn) {
-			if (typeof self.options.hideAnimate == "string") {
+			if (typeof self.options.hideAnimate == 'string') {
 				self.dh.hide(self.options.animate, fn);
 			} else {
-				self.dh.animate(self.options.hideAnimate.animate, self.options.hideAnimate.speed, "", fn);
+				self.dh.animate(self.options.hideAnimate.animate, self.options.hideAnimate.speed, '', fn);
 			}
 		}
 		//设置弹窗焦点
@@ -314,7 +313,7 @@
 		//设置加载加状态
 		this.setLoading = function() {			
 			self.setContent('<div class="dialog-loading"></div>');
-			self.dh.find(".dialog-button").hide();
+			self.dh.find('.dialog-button').hide();
 			if (self.dc.height()<90) {				
 				self.dc.height(Math.max(90, self.options.height));
 			}
@@ -347,7 +346,7 @@
 				self.dh.css('width','');
 			}
 			if (self.options.showButton) {
-				self.dh.find(".dialog-button").show();
+				self.dh.find('.dialog-button').show();
 			}
 		}
 		//取得内容
@@ -356,7 +355,7 @@
 		}	
 		//使能按钮
 		this.disabledButton = function(btname, val) {
-			self.dh.find('.dialog-'+btname).attr("disabled", val);
+			self.dh.find('.dialog-'+btname).attr('disabled', val);
 		}
 		//隐藏按钮
 		this.hideButton = function(btname) {
@@ -373,25 +372,25 @@
 		//下一个窗口
 		this.next = function(title, content, width, okname, onclose) {
 			title = title || self.getTitle();
-			content = content || "";
-			okname = okname || "确定";
+			content = content || '';
+			okname = okname || '确定';
 			width = width || 260;
 			self.setTitle(title);
-			if (content != "") {
+			if (content != '') {
 				self.setContent(content);
 			}
-			self.hideButton("cancel");
-			self.setButtonTitle("ok", okname);
+			self.hideButton('cancel');
+			self.setButtonTitle('ok', okname);
 			self.setWidth(width);
 			self.setOnok(self.close);
-			if (typeof(onclose) == "function") {
+			if (typeof(onclose) == 'function') {
 				self.setOnclose(onclose);
 			}
 			self.show();
 		}
 		//关闭弹窗
 		this.close = function(n) {
-			if (typeof(self.options.onclose) == "function") {
+			if (typeof(self.options.onclose) == 'function') {
 				self.options.onclose(self);
 			}
 			if (self.options.contentType == 'selector') {
@@ -510,7 +509,7 @@
 		}
 		this.open = function(content, options) {
 			self._opening = true;
-			if (typeof(options) == "undefined") {
+			if (typeof(options) == 'undefined') {
 				options = {};
 			}
 			if (options.boxid) {
@@ -538,7 +537,7 @@
 		$(window).scroll(function() {
 			if (arrweebox.length > 0) {
 				var box = self.getTopBox();
-				/*if (box.options.position == "center") {
+				/*if (box.options.position == 'center') {
 					box.setCenterPosition();
 				}*/
 				if (box.mh) {
@@ -551,7 +550,7 @@
 		}).resize(function() {
 			if (arrweebox.length > 0) {
 				var box = self.getTopBox();
-				if (box.options.position == "center") {
+				if (box.options.position == 'center') {
 					box.setCenterPosition();
 				}
 				if (box.mh) {
