@@ -6,17 +6,18 @@
  * @version    
  */ 
 (function($) {
+	var cachedata = {};
 	var arrweebox = new Array();
-	var weebox = function(content, options) {
+	var weebox = function(content,options) {
 		var self 		= this;
 		this.dh 		= null;
 		this.mh 		= null;
 		this.dc			= null;
 		this.dt			= null;
+		this.db			= null;
 		this.selector 	= null;	
 		this.ajaxurl 	= null;
 		this.options 	= null;
-		
 		this._dragging 	= false;
 		this._content 	= content || '';
 		this._options 	= options || {};
@@ -32,6 +33,7 @@
 			draggable: true,
 			modal: true,
 			focus: null,
+			blur: null,
 			position: 'center',
 			overlay: 30,
 			showTitle: true,
@@ -50,7 +52,9 @@
 			onclose: null,
 			onopen: null,
 			oncancel: null,
-			onok: null		
+			onok: null,
+			suggest:{url:'',tele:'',vele:'',fn:null},
+			select:{url:'',type:'radio', tele:'',vele:'',width:120,search:false,fn:null}
 		};
 		//初始化选项
 		this.initOptions = function() {
@@ -60,10 +64,9 @@
 			self._options.hideAnimate = self._options.hideAnimate || self._options.animate;
 			self._options.type = self._options.type || 'dialog';
 			self._options.title = self._options.title || '';
-			if ($.inArray(self._options.type, ['custom'])==-1) self._options.type = 'dialog';
-			self._options.boxclass = self._options.boxclass || self._options.type+'box';
-			self._options.contentType = self._options.contentType || '';
-			if (self._options.contentType == '') {
+			self._options.boxclass = self._options.boxclass || 'wee'+self._options.type;
+			self._options.contentType = self._options.contentType || "";
+			if (self._options.contentType == "") {
 				self._options.contentType = (self._content.substr(0,1) == '#') ? 'selector' : 'text';
 			}
 			self.options  = $.extend({}, self._defaults, self._options);
@@ -72,8 +75,10 @@
 		};
 		//初始化弹窗Box
 		this.initBox = function() {
-			var html = '';	
+			var html = '';
 			switch(self.options.type) {
+				case 'alert':
+				case 'select':
 				case 'dialog':
 				html =  '<div class="weedialog">' +
 						'	<div class="dialog-header">' +
@@ -105,16 +110,18 @@
 						'</div>';
 						break;
 				case 'custom':
-				html = '<div class="weecustom"><div class="dialog-content"></div></div>';
+				case 'suggest':
+				html = '<div><div class="dialog-content"></div></div>';
 						break;
 			}
 			self.dh = $(html).appendTo('body').hide().css({
 				position: 'absolute',	
 				overflow: 'hidden',
 				zIndex: self.options.zIndex
-			});	
+			});
 			self.dc = self.find('.dialog-content');
 			self.dt = self.find('.dialog-title');
+			self.db = self.find('.dialog-button');
 			if (self.options.boxid) {
 				self.dh.attr('id', self.options.boxid);
 			}	
@@ -127,7 +134,7 @@
 			if (self.options.width>0) {
 				self.dh.css('width', self.options.width);
 			}
-			self.dh.bgiframe();	
+			self.dh.bgiframe();
 		}
 		//初始化遮照
 		this.initMask = function() {
@@ -142,8 +149,8 @@
 		}
 		//初始化弹窗内容
 		this.initContent = function(content) {
-			self.dh.find('.dialog-ok').val(self.options.okBtnName);
-			self.dh.find('.dialog-cancel').val(self.options.cancelBtnName);	
+			self.dh.find(".dialog-ok").val(self.options.okBtnName);
+			self.dh.find(".dialog-cancel").val(self.options.cancelBtnName);	
 			if (self.options.title == '') {
 				//self.dt.hide();	
 				//self.dt.html(self._titles[self._options.type] || '');
@@ -160,72 +167,182 @@
 				self.dh.find('.dialog-cancel').hide();
 			}							
 			if (!self.options.showOk) {
-				self.dh.find('.dialog-ok').hide();
-			}			
-			if (self.options.contentType == 'selector') {
-				self.selector = self._content;
-				self._content = $(self.selector).html();
-				self.setContent(self._content);
-				//if have checkbox do
-				var cs = $(self.selector).find(':checkbox');
-				self.dc.find(':checkbox').each(function(i){
-					this.checked = cs[i].checked;
-				});
-				$(self.selector).empty();
-				self.show();
-				self.focus();
-				self.onopen();
-			} else if (self.options.contentType == 'ajax') {	
-				self.ajaxurl = self._content;	
-				self.setLoading();				
-				self.show();
-				self.dh.find('.dialog-button').hide();
-				if (self.options.cache == false) {
-					if (self.ajaxurl.indexOf('?') == -1) {
-						self.ajaxurl += '?_t='+Math.random();
-					} else {
-						self.ajaxurl += '&_t='+Math.random();
+				self.dh.find(".dialog-ok").hide();
+			}
+			if (self.options.type == 'suggest') {//例外处理
+				self.hide();
+				//self.options.clickClose = true;
+				$(self.options.suggest.tele).unbind('keyup').keyup(function(){
+					var val = $.trim(this.value);
+					var data = null;
+					for(key in cachedata) {
+						if (key == val) {
+							data = cachedata[key];
+						}
 					}
-				}
-				$.get(self.ajaxurl, function(data) {
-					self._content = data;
-			    	self.setContent(self._content);
-			    	self.show();
-					self.focus();
-			    	self.onopen();
+					if (data === null) {
+						$.ajax({
+							type: "GET",
+							data:{q:val},
+						  	url: self.options.suggest.url || self._content,
+						  	success: function(res){data = res;},
+						  	dataType:'json',
+						  	async: false				  	
+						});
+					}
+					cachedata[val] = data;
+					var html = '';
+					for(key in data) {
+						html += '<li>'+data[key].name+'</li>';
+					}
+					self.setContent(html);
+					self.show();
+					self.find('li').click(function(){
+						var i = self.find('li').index(this);
+						$(self.options.suggest.tele).val(data[i].name);
+						$(self.options.suggest.vele).val(data[i].id);
+						if (typeof self.options.suggest.fn == 'function') {
+							fn(data[i]);
+						}
+						self.hide();
+					});
 				});
-			} else {
-				self.setContent(self._content);	
-				self.show();
-				self.focus();
-				self.onopen();
+			} else if(self.options.type == 'select') {
+				var type = self.options.select.type || 'radio';
+				var url = self.options.select.url || self._content || '';
+				var search = self.options.select.search || false;
+				$.ajax({
+					type: "GET",
+				  	url: url,
+				  	success: function(data){
+						var html = '';
+						if (data === null) {
+							html = '没有数据';
+						} else {
+							if (search) {
+								html += '<div class="wsearch"><input type="text"><input type="button" value="查询"></div>';
+							}
+							var ovals = $.trim($(self.options.select.vele).val()).split(',');//原值
+							html += '<div class="wselect">';
+							for(key in data) {
+								var checked = ($.inArray(data[key].id, ovals)==-1)?'':'checked="checked"'; 
+								html += '<li><label><input name="wchoose" '+checked+' type="'+type+'" value="'+data[key].id+'">'+data[key].name+'</label></li>';
+							}
+							html += '</div>';
+						}
+						self.setContent(html);
+						self.find('li').width(self.options.select.width);
+						self.find('.wsearch input').keyup(function(){
+							var v = $.trim(this.value);
+							self.find('li').hide();
+							for(i in data) {
+								if (data[i].id==v || data[i].name.indexOf(v)!=-1) {
+									self.find('li:eq('+i+')').show();
+								}
+							}
+						});
+						self.setOnok(function(){
+							if (type=='radio') {
+								if (self.find(':checked').length == 0) {
+									$(self.options.select.tele).val('');
+									$(self.options.select.vele).val('');
+								} else {
+									var i = self.find(':radio[name=wchoose]').index(self.find(':checked')[0]);
+									$(self.options.select.tele).val(data[i].name);
+									$(self.options.select.vele).val(data[i].id);
+									if (typeof self.options.select.fn == 'function') fn(data[i]);
+								}
+							} else {
+								if (self.find(':checked').length == 0) {
+									$(self.options.select.tele).val('');
+									$(self.options.select.vele).val('');
+								} else {
+									var temps=[],ids=[],names=[];
+									self.find(':checked').each(function(){
+										var i = self.find(':checkbox[name=wchoose]').index(this);
+										temps.push(data[i]);
+										ids.push(data[i].id);
+										names.push(data[i].name);
+									});
+									$(self.options.select.tele).val(names.join(","));
+									$(self.options.select.vele).val(ids.join(","));
+									if (typeof self.options.select.fn == 'function') fn(temps);
+								}
+							}
+							self.close();
+						});
+						self.show();
+					},
+				  	dataType:'json'
+				});
+			} else {				
+				if (self.options.contentType == "selector") {
+					self.selector = self._content;
+					self._content = $(self.selector).html();
+					self.setContent(self._content);
+					//if have checkbox do
+					var cs = $(self.selector).find(':checkbox');
+					self.dc.find(':checkbox').each(function(i){
+						this.checked = cs[i].checked;
+					});
+					$(self.selector).empty();
+					self.show();
+					self.focus();
+					self.onopen();
+				} else if (self.options.contentType == "ajax") {	
+					self.ajaxurl = self._content;	
+					self.setLoading();				
+					self.show();
+					self.dh.find(".dialog-button").hide();
+					if (self.options.cache == false) {
+						if (self.ajaxurl.indexOf('?') == -1) {
+							self.ajaxurl += "?_t="+Math.random();
+						} else {
+							self.ajaxurl += "&_t="+Math.random();
+						}
+					}
+					$.get(self.ajaxurl, function(data) {
+						self._content = data;
+				    	self.setContent(self._content);
+				    	self.show();
+						self.focus();
+				    	self.onopen();
+					});
+				} else {
+					self.setContent(self._content);	
+					self.show();
+					self.focus();
+					self.onopen();
+				}
 			}
 		}
 		//初始化弹窗事件
 		this.initEvent = function() {
-			self.dh.find('.dialog-close, .dialog-cancel, .dialog-ok').unbind('click').click(function(){self.close()});			
-			if (typeof(self.options.onok) == 'function'") {
-				self.dh.find('.dialog-ok').unbind('click').click(function(){self.options.onok(self)});
+			self.dh.find(".dialog-close, .dialog-cancel, .dialog-ok").unbind('click').click(function(){self.close()});			
+			if (typeof(self.options.onok) == "function") {
+				self.dh.find(".dialog-ok").unbind('click').click(function(){self.options.onok(self)});
 			} 
-			if (typeof(self.options.oncancel) == 'function') {
-				self.dh.find('.dialog-cancel').unbind('click').click(function(){self.options.oncancel(self)});
+			if (typeof(self.options.oncancel) == "function") {
+				self.dh.find(".dialog-cancel").unbind('click').click(function(){self.options.oncancel(self)});
 			}	
 			if (self.options.timeout>0) {
 				window.setTimeout(self.close, (self.options.timeout * 1000));
-			}	
+			}			
 			this.drag();			
 		}
 		//设置onok事件
 		this.setOnok = function(fn) {
-			self.dh.find('.dialog-ok').unbind('click').click(function(){fn(self)});
+			self.dh.find(".dialog-ok").unbind('click');
+			if (typeof(fn)=="function")	self.dh.find(".dialog-ok").click(function(){fn(self)});
 		}
 		//设置onOncancel事件
 		this.setOncancel = function(fn) {
-			self.dh.find('.dialog-cancel').unbind('click').click(function(){fn(self)});
+			self.dh.find(".dialog-cancel").unbind('click');
+			if (typeof(fn)=="function")	self.dh.find(".dialog-cancel").click(function(){fn(self)});
 		}
 		//设置onOnclose事件
 		this.setOnclose = function(fn) {
-			self.options.onclose = function(){fn(self)};
+			self.options.onclose = fn;
 		}
 		//弹窗拖拽
 		this.drag = function() {		
@@ -268,9 +385,25 @@
 		}
 		//打开前的回弹函数
 		this.onopen = function() {							
-			if (typeof(self.options.onopen) == 'function') {
+			if (typeof(self.options.onopen) == "function") {
 				self.options.onopen(self);
 			}	
+		}
+		//增加一个按钮
+		this.addButton = function(opt) {
+			opt = opt || {};
+			opt.title = opt.title || 'OK';
+			opt.bclass = opt.bclass || 'dialog-btn1';
+			opt.fn = opt.fn || null;
+			opt.index = opt.index || 0;
+			var btn = $('<input type="button" class="'+opt.bclass+'" value="'+opt.title+'">').click(function(){
+				if (typeof opt.fn == "function") opt.fn(self);
+			});
+			if (opt.index < self.db.find('input').length) {
+				self.db.find('input:eq('+opt.index+')').before(btn);
+			} else {
+				self.db.append(opt);
+			}			
 		}
 		//显示弹窗
 		this.show = function() {
@@ -282,7 +415,7 @@
 			} else {
 				self.setElementPosition();
 			}
-			if (typeof self.options.showAnimate == 'string') {
+			if (typeof self.options.showAnimate == "string") {
 				self.dh.show(self.options.animate);
 			} else {
 				self.dh.animate(self.options.showAnimate.animate, self.options.showAnimate.speed);
@@ -292,10 +425,10 @@
 			}
 		}
 		this.hide = function(fn) {
-			if (typeof self.options.hideAnimate == 'string') {
+			if (typeof self.options.hideAnimate == "string") {
 				self.dh.hide(self.options.animate, fn);
 			} else {
-				self.dh.animate(self.options.hideAnimate.animate, self.options.hideAnimate.speed, '', fn);
+				self.dh.animate(self.options.hideAnimate.animate, self.options.hideAnimate.speed, "", fn);
 			}
 		}
 		//设置弹窗焦点
@@ -313,7 +446,7 @@
 		//设置加载加状态
 		this.setLoading = function() {			
 			self.setContent('<div class="dialog-loading"></div>');
-			self.dh.find('.dialog-button').hide();
+			self.dh.find(".dialog-button").hide();
 			if (self.dc.height()<90) {				
 				self.dc.height(Math.max(90, self.options.height));
 			}
@@ -346,7 +479,7 @@
 				self.dh.css('width','');
 			}
 			if (self.options.showButton) {
-				self.dh.find('.dialog-button').show();
+				self.dh.find(".dialog-button").show();
 			}
 		}
 		//取得内容
@@ -354,8 +487,8 @@
 			return self.dc.html();
 		}	
 		//使能按钮
-		this.disabledButton = function(btname, val) {
-			self.dh.find('.dialog-'+btname).attr('disabled', val);
+		this.disabledButton = function(btname, state) {
+			self.dh.find('.dialog-'+btname).attr("disabled", state);
 		}
 		//隐藏按钮
 		this.hideButton = function(btname) {
@@ -369,28 +502,30 @@
 		this.setButtonTitle = function(btname, title) {
 			self.dh.find('.dialog-'+btname).val(title);	
 		}
-		//下一个窗口
-		this.next = function(title, content, width, okname, onclose) {
-			title = title || self.getTitle();
-			content = content || '';
-			okname = okname || '确定';
-			width = width || 260;
-			self.setTitle(title);
-			if (content != '') {
-				self.setContent(content);
-			}
-			self.hideButton('cancel');
-			self.setButtonTitle('ok', okname);
+		//操作完成
+		this.next = function(opt) {
+			opt = opt || {};
+			opt.title = opt.title || self.getTitle();
+			opt.content = opt.content || "";
+			opt.okname = opt.okname || "确定";
+			opt.width = opt.width || 260;
+			opt.onok = opt.onok || self.close;
+			opt.onclose = opt.onclose || null;
+			opt.oncancel = opt.oncancel || null;
+			opt.hideCancel = opt.hideCancel || true;
+			self.setTitle(opt.title);
+			self.setButtonTitle("ok", okname);
 			self.setWidth(width);
-			self.setOnok(self.close);
-			if (typeof(onclose) == 'function') {
-				self.setOnclose(onclose);
-			}
+			self.setOnok(opt.onok);
+			if (opt.content != "") self.setContent(opt.content);
+			if (opt.hideCancel)	self.hideButton("cancel");
+			if (typeof(opt.onclose) == "function") self.setOnclose(opt.onclose);
+			if (typeof(opt.oncancel) == "function") self.setOncancel(opt.oncancel);
 			self.show();
 		}
 		//关闭弹窗
 		this.close = function(n) {
-			if (typeof(self.options.onclose) == 'function') {
+			if (typeof(self.options.onclose) == "function") {
 				self.options.onclose(self);
 			}
 			if (self.options.contentType == 'selector') {
@@ -407,6 +542,10 @@
 					$(self.selector).html(self._content);
 				}
 			}
+			//设置关闭后的焦点
+			if (self.options.blur) {
+				$(self.options.blur).focus();
+			}
 			//从数组中删除
 			for(i=0;i<arrweebox.length;i++) {
 				if (arrweebox[i].dh.get(0) == self.dh.get(0)) {
@@ -414,7 +553,8 @@
 					break;
 				}
 			}
-			self.hide(function(){self.dh.remove();});
+			self.hide();
+			self.dh.remove();
 			if (self.mh) {
 				self.mh.remove();
 			}
@@ -474,22 +614,23 @@
 			var trigger = $(self.options.position.refele);
 			var reftop = self.options.position.reftop || 0;
 			var refleft = self.options.position.refleft || 0;
-			var top = trigger.offset().top + trigger.height() + reftop;
-			var left = trigger.offset().left + refleft;
+			var adjust = (typeof self.options.position.adjust=="undefined")?true:self.options.position.adjust;
+			var top = trigger.offset().top + trigger.height();
+			var left = trigger.offset().left;
 			var docWidth = document.documentElement.clientWidth || document.body.clientWidth;
 			var docHeight = document.documentElement.clientHeight|| document.body.clientHeight;
 			var docTop = document.documentElement.scrollTop|| document.body.scrollTop;
 			var docLeft = document.documentElement.scrollLeft|| document.body.scrollLeft;
 			var docBottom = docTop + docHeight;
 			var docRight = docLeft + docWidth;
-			if (left + self.dh.width() > docRight) {
-				left = left + 14 + trigger.width() - self.dh.width();
+			if (adjust && left + self.dh.width() > docRight) {
+				left = docRight - self.dh.width() - 1;
 			}
-			if (top + self.dh.height() > docBottom) {
-				top -= top + self.dh.height() - docBottom + 1;
+			if (adjust && top + self.dh.height() > docBottom) {
+				top = docBottom - self.dh.height() - 1;
 			}
-			left = Math.max(left, 0);
-			top = Math.max(top, 0);
+			left = Math.max(left+refleft, 0);
+			top = Math.max(top+reftop, 0);
 			self.dh.css({top: top, left: left});
 		}
 		this.initOptions();
@@ -509,7 +650,7 @@
 		}
 		this.open = function(content, options) {
 			self._opening = true;
-			if (typeof(options) == 'undefined') {
+			if (typeof(options) == "undefined") {
 				options = {};
 			}
 			if (options.boxid) {
@@ -536,21 +677,26 @@
 		}
 		$(window).scroll(function() {
 			if (arrweebox.length > 0) {
-				var box = self.getTopBox();
-				/*if (box.options.position == 'center') {
-					box.setCenterPosition();
-				}*/
-				if (box.mh) {
-					box.mh.css({
-						width: box.bwidth(),
-						height: box.bheight()
-					});
+				for(i=0;i<arrweebox.length;i++) {
+					var box = arrweebox[i];//self.getTopBox();
+					/*if (box.options.position == "center") {
+						box.setCenterPosition();
+					}*/
+					if (box.options.position != "center"){
+						box.setElementPosition();
+					}
+					if (box.mh) {
+						box.mh.css({
+							width: box.bwidth(),
+							height: box.bheight()
+						});
+					}
 				}
 			}		
 		}).resize(function() {
 			if (arrweebox.length > 0) {
 				var box = self.getTopBox();
-				if (box.options.position == 'center') {
+				if (box.options.position == "center") {
 					box.setCenterPosition();
 				}
 				if (box.mh) {
