@@ -176,5 +176,59 @@ $("#test8").click(function(){
 });
 </script>
 <hr>
+
+<h1>弹窗打开后、及关闭后的光标定位<input type="button" id="test9" value="演示[id=test9]"></h1>
+<pre>
+$("#test9").click(function(){
+	$.weeboxs.open('ajax3.html', {title:'弹窗打开后、及关闭后的光标定位', contentType:'ajax', focus:'#focusele', blur:'.blurele'});
+});
+</pre>
+<img alt="" src="demo9.jpg">
+<script type="text/javascript">
+$("#test9").click(function(){
+	$.weeboxs.open('ajax3.html', {title:'弹窗打开后、及关闭后的光标定位', contentType:'ajax', focus:'#focusele', blur:'.blurele'});
+});
+</script>
+<br>
+<input type="text" size="40" class="blurele" value="弹窗关闭后光标定位到这儿">
+<hr>
+
+<h1>修改确定和取消的按钮名字<input type="button" id="test10" value="演示[id=test10]"></h1>
+<pre>
+$("#test10").click(function(){
+	$.weeboxs.open('修改确定和取消的按钮名字', {title:'修改按钮名字', okBtnName:'保存', cancelBtnName:'放弃'});
+});
+</pre>
+<img alt="" src="demo10.jpg">
+<script type="text/javascript">
+$("#test10").click(function(){
+	$.weeboxs.open('修改确定和取消的按钮名字', {title:'修改按钮名字', okBtnName:'保存', cancelBtnName:'放弃'});
+});
+</script>
+<hr>
+
+<h1>不显示某个按钮、按钮栏<input type="button" id="test11" value="演示[id=test11]"></h1>
+<pre>
+$("#test11").click(function(){
+	$.weeboxs.open('不显示标题和按钮栏', {
+		title:'测试',
+		showButton:false,//不显示按钮栏
+		showOk:false,//不显示确定按钮
+		showCancel:false//不显示取消按钮		
+	});
+});
+</pre>
+<img alt="" src="demo11.jpg">
+<script type="text/javascript">
+$("#test11").click(function(){
+	$.weeboxs.open('不显示标题和按钮栏', {
+		title:'测试',
+		showButton:false,//不显示按钮栏
+		showOk:false,//不显示确定按钮
+		showCancel:false//不显示取消按钮		
+	});
+});
+</script>
+<hr>
 </body>
 </html>

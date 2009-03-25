@@ -158,7 +158,7 @@
 				self.dt.html(self.options.title);
 			}
 			if (!self.options.showTitle) {
-				self.dh.find('.dialog-header').hide();
+				self.dt.hide();
 			}	
 			if (!self.options.showButton) {
 				self.dh.find('.dialog-button').hide();
@@ -434,6 +434,7 @@
 		//设置弹窗焦点
 		this.focus = function() {
 			if (self.options.focus) {
+				self.dh.find(self.options.focus).focus();//TODO IE中要两次
 				self.dh.find(self.options.focus).focus();
 			} else {
 				self.dh.find('.dialog-cancel').focus();
