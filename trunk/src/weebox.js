@@ -308,6 +308,11 @@
 						self.focus();
 				    	self.onopen();
 					});
+				} else if (self.options.contentType == "iframe") { /*加入iframe使程序可以直接引用其它页面 by ePim*/
+					self.setContent('<iframe src="'+self._content+'" width="100%" height="100%"></iframe>');
+					self.onopen();	
+					self.show();	
+					self.focus();
 				} else {
 					self.setContent(self._content);	
 					self.show();

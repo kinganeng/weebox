@@ -230,5 +230,21 @@ $("#test11").click(function(){
 });
 </script>
 <hr>
+
+
+
+<h1>使用IFRAME的方式为弹窗提供内容<input type="button" id="test12" value="演示[id=test12]"></h1>
+<pre>
+$("#test12").click(function(){
+	$.weeboxs.open('http://www.google.com', {title:'IFRAME得到服务器上的内容', contentType:'iframe',width:500,height:200});
+});
+</pre>
+<img alt="" src="demo6.jpg">
+<script type="text/javascript">
+$("#test12").click(function(){
+	$.weeboxs.open('ajax1.html', {title:'IFRAME得到服务器上的内容', contentType:'iframe',width:500,height:200});
+});
+</script>
+<hr>
 </body>
 </html>
