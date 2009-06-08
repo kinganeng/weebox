@@ -9,10 +9,11 @@ var weescroller = function(idUl, options) {
    	this.options = {	//默认值
    		row: 5,			//显示行数
   		time: 15,		//速度(越大越慢)
-      	pause: 2000		//停顿时间      	
+      	pause: 2000,	//停顿时间
+      	direct: 0,		//0向上,1向下,2向左,3向右
    	};
    	this.options = $.extend(self.options, options || {});   	
-    //下一个
+    //向下
     this.Next = function() {
     	if (!self.canscroll) return false;
     	clearTimeout(self.pausetimer);
@@ -28,6 +29,25 @@ var weescroller = function(idUl, options) {
     		} else {
     			self.CTL++;
     			self.oUl.get(0).scrollTop++;
+    		}
+    	}, self.options.time);
+    }
+    //向左
+    this.Left = function() {
+    	if (!self.canscroll) return false;
+    	clearTimeout(self.pausetimer);
+    	clearInterval(self.steptimer);
+    	var width = self.oUl.find("li:first").width();
+    	self.steptimer = setInterval(function(){
+    		if (self.CTL >= width) {
+    			self.CTL = 0;
+    			clearInterval(self.steptimer);
+    			self.oUl.find("li:first").appendTo(self.oUl);
+    			self.oUl.scrollLeft = 0;
+    			self.pausetimer = setTimeout(self.Left, self.options.pause);
+    		} else {
+    			self.CTL++;
+    			self.oUl.scrollLeft--;
     		}
     	}, self.options.time);
     }
@@ -76,7 +96,20 @@ var weescroller = function(idUl, options) {
 	   	} else {
 	   		self.oUl.html(self.oOUl.html());
 	   	}
-	   	self.pausetimer = setTimeout(self.Next, self.options.pause);
+	  	switch (self.options.direct) {
+	  		case 0 : 
+	  		   	self.pausetimer = setTimeout(self.Next, self.options.pause);
+	  		   	break;
+	  		case 1 :
+	  			self.pausetimer = setTimeout(self.Prev, self.options.pause);
+	  		   	break;
+	  		case 2 :
+	  			self.pausetimer = setTimeout(self.Left, self.options.pause);
+	  		   	break;
+	  		case 3 :
+	  			self.pausetimer = setTimeout(self.Right, self.options.pause);
+	  		   	break;
+	  	}
    	}
    	this.oUl.mouseover(function(){self.Stop();});
    	this.oUl.mouseout(function(){self.Next();});
