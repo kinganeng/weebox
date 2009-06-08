@@ -139,10 +139,17 @@
 		//初始化遮照
 		this.initMask = function() {
 			if (self.options.modal) {
+				if ($.browser.msie) {
+                    h= document.compatMode == "CSS1Compat" ? document.documentElement.clientHeight : document.body.clientHeight;
+                    w= document.compatMode == "CSS1Compat" ? document.documentElement.clientWidth : document.body.clientWidth;
+                } else {
+                    h= self.bheight();
+                    w= self.bwidth();
+                }
 				self.mh = $("<div class='dialog-mask'></div>")
 				.appendTo('body').hide().css({
-					width: self.bwidth(),
-					height: self.bheight(),
+					width: w,
+					height: h,
 					zIndex: self.options.zIndex-1
 				}).bgiframe();
 			}
