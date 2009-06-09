@@ -692,6 +692,13 @@
 			/*-----解决在ie下页面过大时出现部分没有遮罩的问题-----by ePim(WanJiDong@gmail.com)*/
 			return box;
 		}
+		//关闭最上层窗体,程序调用方法：jQuery.weeboxs.close();
+		this.close = function(){
+			var closingBox = this.getTopBox();
+			if(false!=closingBox) {
+				closingBox.close();
+			}
+		}
 		this.getTopBox = function() {
 			if (arrweebox.length>0) {
 				return arrweebox[arrweebox.length-1];
