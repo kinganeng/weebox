@@ -679,6 +679,17 @@
 			var box = new weebox(content, options);
 			box.dh.click(function(){self._onbox = true;});
 			arrweebox.push(box);
+			/*-----解决在ie下页面过大时出现部分阴影没有覆盖的问题-----by ePim*/
+			if (box.options.position != "center"){
+				box.setElementPosition();
+			}
+			if (box.mh) {
+				box.mh.css({
+					width: box.bwidth(),
+					height: box.bheight()
+				});
+			}
+			/*-----解决在ie下页面过大时出现部分没有遮罩的问题-----by ePim(WanJiDong@gmail.com)*/
 			return box;
 		}
 		this.getTopBox = function() {
