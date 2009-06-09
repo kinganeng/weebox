@@ -239,11 +239,16 @@ $("#test12").click(function(){
 	$.weeboxs.open('http://www.google.com', {title:'IFRAME得到服务器上的内容', contentType:'iframe',width:500,height:200});
 });
 </pre>
-<img alt="" src="demo6.jpg">
+<img alt="" src="demo12.jpg">
 <script type="text/javascript">
+var weeboxDialog;
 $("#test12").click(function(){
-	$.weeboxs.open('ajax1.html', {title:'IFRAME得到服务器上的内容', contentType:'iframe',width:500,height:200});
+	weeboxDialog=$.weeboxs.open('jQuery.weebox.iframedialog.html', {title:'IFRAME得到服务器上的内容', contentType:'iframe',width:500,height:200});	
 });
+function closeIframeDialog() {
+	//$.weeboxs.close();  此方法失效?
+	weeboxDialog.close();
+}
 </script>
 <hr>
 </body>
