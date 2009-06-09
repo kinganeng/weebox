@@ -2,14 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript">
-//<![CDATA[
-	function closeThisDialog() {
-		window.parent.window.closeIframeDialog();
-	}
-//]]>
-</script>
+<title>IFRAME Dialog</title>
 </head>
 <body>
 	<ul>
@@ -17,6 +10,6 @@
 		<li>这里你可以使用PHP,JSP,Ruby,ASP等输出内容</li>
 		<li>还有什么你想要的吗？</li>
 	</ul>
-	<button onclick="closeThisDialog();">close dialog</button>
+	<button onclick="window.parent.window.$.weeboxs.close();">close dialog</button>
 </body>
 </html>
