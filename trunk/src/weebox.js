@@ -316,10 +316,13 @@
 				    	self.onopen();
 					});
 				} else if (self.options.contentType == "iframe") { /*加入iframe使程序可以直接引用其它页面 by ePim*/
-					self.setContent('<iframe src="'+self._content+'" width="100%" height="100%" frameborder="no"></iframe>');
-					self.onopen();	
-					self.show();	
-					self.focus();
+					var html = '<style type="text/css">';
+					html += ('\n.dialog-box .dialog-content{padding:0px;}');
+					html += ('\n</style>');
+					html += ('<iframe src="'+self._content+'" width="100%" height="100%" frameborder="0"></iframe>');
+					self.setContent(html);
+					self.onopen();
+					self.show();
 				} else {
 					self.setContent(self._content);	
 					self.show();
