@@ -319,7 +319,7 @@
 					var html = '<style type="text/css">';
 					html += ('\n.dialog-box .dialog-content{padding:0px;}');
 					html += ('\n</style>');
-					html += ('<iframe src="'+self._content+'" width="100%" height="100%" frameborder="0"></iframe>');
+					html += ('<iframe class="dialogIframe" src="'+self._content+'" width="100%" height="100%" frameborder="0"></iframe>');
 					self.setContent(html);
 					self.onopen();
 					self.show();
@@ -557,6 +557,9 @@
 				} else {
 					$(self.selector).html(self._content);
 				}
+			} else if(self.options.contentType == "iframe") {
+				var iframe = self.dh.find(".dialogIframe");
+				iframe.removeAttr("src");
 			}
 			//设置关闭后的焦点
 			if (self.options.blur) {
