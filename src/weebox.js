@@ -448,12 +448,13 @@
 		}
 		//设置弹窗焦点
 		this.focus = function() {
-			if (self.options.focus) {
-				self.dh.find(self.options.focus).focus();//TODO IE中要两次
-				self.dh.find(self.options.focus).focus();
-			} else {
-				self.dh.find('.dialog-cancel').focus();
-			}
+			setTimeout(function(){
+				if (self.options.focus) {
+					self.dh.find(self.options.focus).focus();
+				} else {
+					self.dh.find('.dialog-cancel').focus();
+				}
+			},1);
 		}
 		//在弹窗内查找元素
 		this.find = function(selector) {
